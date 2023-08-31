@@ -1,35 +1,50 @@
 
-import { Button, StyleSheet, Text, TextInput, View, FlatList, Modal } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
 import React, {useState} from 'react';
+import Modal from './components/Modal';
 
 export default function App() {
 
   const [textValue, setTextValue] = useState("")
   const [itemList, setItemList] = useState([])
-  const [itemSelected, setItemSelected] = useState({})
+  const [itemSelected, setItemSelected] = useState()
   const [modalVisible, setModalVisible] = useState(false)
 
   const onHandleChangeItem = (text) =>  setTextValue(text)
 
 
   const addItems = () => {
+
+    if (textValue === "") {
+      return
+    }
     setItemList(prevState => [
       ...prevState, {id: Math.random(), value: textValue}
     ])
+    setTextValue("")
   }
 
-  const renderListItem = ({ item }) => (
-    <View syles={styles.TextContainer}> 
+  const renderListItem = ({ item, index }) => (
+    <TouchableOpacity 
+    style={styles.TextContainer}
+    onPress={() => onHandleModal(index)}
+    > 
     <Text style={styles.Text}> {item.value} </Text>
-    </View>  
+    </TouchableOpacity>  
   )
 
   const onHandleDelete = () => {
-
+    console.log(itemSelected)
+    let arr = itemList
+    arr.splice(itemSelected, 1)
+    setItemList(arr)
+    setModalVisible(false)
   }
 
-  const onHandleModal = () => {
-
+  const onHandleModal = (index) => {
+    console.log(index)
+    setModalVisible(true)
+    setItemSelected(index)
   }
   return (
     <View style={styles.container}>
@@ -51,22 +66,9 @@ export default function App() {
        />
       </View>
 
-      <Modal 
-      visible={modalVisible}
-      animationType="fade"
-      >
-        <View style={styles.modalTitle}>
-          <Text> Mi modal </Text>
-        </View>
-        <View style={styles.modalMessage}>
-          <Text> Estás seguro que quieres eliminar</Text>
-        </View>
-        <View style={styles.modalButton}>
-          <Button 
-          title="confirmar"
-          onPress={onHandleDelete}/>
-        </View>
-      </Modal>
+      <Modal modalVisible={modalVisible}
+      onHandleDelete={onHandleDelete}/>
+
     </View>
   );
 }
@@ -108,20 +110,6 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     padding: 10,
     width: "100%",
-  },
-  modalTitle: {
-    backgroundColor: "#ccc",
-    color: "#fff",
-    fontSize: 18,
-    },
-    modalMessage: {
-      marginBottom: 15,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    modalButton: {
-      marginTop: 15,
-
-    }
+  }
 });
 
