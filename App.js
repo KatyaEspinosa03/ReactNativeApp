@@ -1,5 +1,5 @@
 
-import { Button, StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Keyboard} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Keyboard} from 'react-native';
 import React, {useState} from 'react';
 import Modal from './components/Modal';
 import Input from './components/Input';
