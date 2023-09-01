@@ -11,6 +11,7 @@ export default function App() {
   const [itemList, setItemList] = useState([])
   const [itemSelected, setItemSelected] = useState()
   const [modalVisible, setModalVisible] = useState(false)
+  const [selectedItemName, setSelectedItemName] = useState("")
 
   const onHandleChangeItem = (text) =>  setTextValue(text)
 
@@ -54,6 +55,8 @@ export default function App() {
     console.log(index)
     setModalVisible(true)
     setItemSelected(index)
+    setSelectedItemName(itemList[index]?.value)
+
   }
   return (
     <View style={styles.container}>
@@ -74,6 +77,7 @@ export default function App() {
       <Modal modalVisible={modalVisible}
       onHandleDelete={onHandleDelete}
       onHandleCancel={onHandleCancel}
+      selectedItemName={selectedItemName}
      />
 
     </View>

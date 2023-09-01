@@ -7,6 +7,7 @@ const Flatlist = ({itemList, renderListItem}) => {
     data={itemList}
     renderItem={renderListItem}
     keyExtractor={item => item.id}
+
     />
   )
 }

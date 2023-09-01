@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, Text, View, Modal as NewModal, Button }from "react-native"
 
-const Modal = ({modalVisible, onHandleDelete, onHandleCancel}) => {
+const Modal = ({modalVisible, onHandleDelete, onHandleCancel, selectedItemName}) => {
 
  
 
@@ -16,7 +16,7 @@ const Modal = ({modalVisible, onHandleDelete, onHandleCancel}) => {
             <View style={styles.modalTitle}>
             </View>
             <View style={styles.modalMessage}>
-              <Text>Estas seguro que deseas eliminar el elemento?</Text>
+              <Text>Estas seguro que deseas eliminar {selectedItemName}?</Text>
             </View>
             <View style={styles.modalButton}>
             <Button title="Cancelar" 
