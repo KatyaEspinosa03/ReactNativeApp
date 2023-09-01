@@ -26,10 +26,10 @@ export default function App() {
 
   const renderListItem = ({ item, index }) => (
     <TouchableOpacity 
-    style={styles.TextContainer}
+    style={styles.itemContainer}
     onPress={() => onHandleModal(index)}
     > 
-    <Text style={styles.Text}> {item.value} </Text>
+    <Text style={styles.TextItem}> {item.value} </Text>
     </TouchableOpacity>  
   )
 
@@ -41,6 +41,10 @@ export default function App() {
     setModalVisible(false)
   }
 
+  const onHandleCancel = () => {
+    setModalVisible(false);
+  }
+
   const onHandleModal = (index) => {
     console.log(index)
     setModalVisible(true)
@@ -48,13 +52,14 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Shopping List</Text>
       <View style={styles.inputContainer}>
-        <TextInput placeholder='item de la lista'
+        <TextInput placeholder='Agregar nuevo elemento'
         style={styles.input}
         value={textValue}
         onChangeText={onHandleChangeItem}>
         </TextInput>
-        <Button title= "ADD" color={"#ff0000"}
+        <Button title= "+ ADD" color={"#a288a6"}
         onPress={addItems}/>
       </View>
     
@@ -67,7 +72,9 @@ export default function App() {
       </View>
 
       <Modal modalVisible={modalVisible}
-      onHandleDelete={onHandleDelete}/>
+      onHandleDelete={onHandleDelete}
+      onHandleCancel={onHandleCancel}
+     />
 
     </View>
   );
@@ -75,7 +82,16 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: 50,
+    paddingTop: 80,
+    backgroundColor: "#f1e3e4"
+  },
+  title: {
+    fontSize: 35,
+    fontWeight: "bold",
+    marginBottom: 25,
+    color: "#a288a6"
   },
   inputContainer: {
     flexDirection: "row",
@@ -85,31 +101,36 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   input: {
-    borderBottomColor: "black",
-    borderBottomWidth: 1,
     width: 200,
     height: 50,
     fontSize: 20,
-    padding: 10,
+    padding: 12,
   },
   listContainer:{
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-    borderColor: "#ff0000",
-    borderWidth: 2,
+    marginTop: 25
   },
   Text: {
     fontSize: 24,
   },
-
-  TextContainer:{
-    borderColor:"#ff0000",
-    alignItems: "center",
-    borderWidth: 2,
-    marginVertical: 20,
-    padding: 10,
-    width: "100%",
+  itemContainer: {
+    height: 40,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    borderRadius: 10,
+    justifyContent: "center",
+    backgroundColor: "#b75d69",
+    shadowColor: "#1c1d21",
+    shadowOffset: { width: 0, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    elevation: 5,
+  },
+  TextItem:{
+    fontSize: 18,
+    paddingLeft: 15,
+    color: "#fff",
+   fontWeight: "600",
+   fontVariant: "no-common-ligtures"
   }
 });
 
