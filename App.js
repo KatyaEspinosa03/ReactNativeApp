@@ -1,7 +1,9 @@
 
-import { Button, StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Keyboard} from 'react-native';
 import React, {useState} from 'react';
 import Modal from './components/Modal';
+import Input from './components/Input';
+import Flatlist from './components/Flatlist';
 
 export default function App() {
 
@@ -22,10 +24,13 @@ export default function App() {
       ...prevState, {id: Math.random(), value: textValue}
     ])
     setTextValue("")
+    Keyboard.dismiss()
   }
 
   const renderListItem = ({ item, index }) => (
+   
     <TouchableOpacity 
+
     style={styles.itemContainer}
     onPress={() => onHandleModal(index)}
     > 
@@ -52,23 +57,18 @@ export default function App() {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Shopping List</Text>
-      <View style={styles.inputContainer}>
-        <TextInput placeholder='Agregar nuevo elemento'
-        style={styles.input}
-        value={textValue}
-        onChangeText={onHandleChangeItem}>
-        </TextInput>
-        <Button title= "+ ADD" color={"#a288a6"}
-        onPress={addItems}/>
-      </View>
+    <View style={styles.inputContainer}>
+    <Input textValue={textValue}
+      onHandleChangeItem={onHandleChangeItem}
+      addItems={addItems}
+      setItemList={setItemList}/>
+    </View>
+     
     
       <View style={styles.listContainer}>
-       <FlatList 
-       data={itemList}
-       renderItem={renderListItem}
-       keyExtractor={item => item.id}
-       />
+      <Flatlist itemList={itemList}
+      renderListItem={renderListItem}/>
+
       </View>
 
       <Modal modalVisible={modalVisible}
@@ -87,33 +87,23 @@ const styles = StyleSheet.create({
     paddingTop: 80,
     backgroundColor: "#f1e3e4"
   },
-  title: {
-    fontSize: 35,
-    fontWeight: "bold",
-    marginBottom: 25,
-    color: "#a288a6"
-  },
   inputContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: 'center',
     backgroundColor: "#fff",
     borderRadius: 10,
-  },
-  input: {
-    width: 200,
-    height: 50,
-    fontSize: 20,
-    padding: 12,
+    marginBottom: 10,
   },
   listContainer:{
-    marginTop: 25
+    marginTop: 5,
   },
   Text: {
     fontSize: 24,
   },
   itemContainer: {
-    height: 40,
+    flex: 1,
+    height: 50,
     marginVertical: 10,
     marginHorizontal: 5,
     borderRadius: 10,
