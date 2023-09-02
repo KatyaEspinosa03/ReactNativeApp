@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import Modal from './components/Modal';
 import Input from './components/Input';
 import Flatlist from './components/Flatlist';
+import Checkbox from './components/Checkbox';
 
 export default function App() {
 
@@ -21,21 +22,34 @@ export default function App() {
     if (textValue === "") {
       return
     }
+
     setItemList(prevState => [
-      ...prevState, {id: Math.random(), value: textValue}
+      ...prevState, {id: Math.random(), value: textValue, completed: false}
     ])
     setTextValue("")
     Keyboard.dismiss()
   }
 
+  const toggleItemCompletion = (index) => {
+    setItemList((prevState) => 
+      prevState.map((item, i) => 
+        i === index ? {...item, completed: !item.completed}: item))
+  }
   const renderListItem = ({ item, index }) => (
    
     <TouchableOpacity 
-
     style={styles.itemContainer}
-    onPress={() => onHandleModal(index)}
-    > 
-    <Text style={styles.TextItem}> {item.value} </Text>
+    onPress={() => onHandleModal(index)} > 
+
+    <View style={styles.checkboxContainer}>
+    <Checkbox
+    checked={item.completed}
+    onToggle={() => toggleItemCompletion(index)}/>
+   
+  
+    <Text style={[styles.TextItem,
+    item.completed && {textDecorationLine:"line-through"}]}> {item.value} </Text>
+     </View>
     </TouchableOpacity>  
   )
 
@@ -125,6 +139,13 @@ const styles = StyleSheet.create({
     color: "#fff",
    fontWeight: "600",
    fontVariant: "no-common-ligtures"
+  },
+  checkboxContainer:{
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 10,
+    border: 2,
+    borderColor: "#fff"
   }
 });
 
